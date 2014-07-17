@@ -83,11 +83,11 @@ var _ = {};
       
       _.each(collection, function(item, index) {
 	  if (test(item)) {
-	      result.push(item);
+	      results.push(item);
 	  }
       });
 	     
-      return result;
+      return results;
   };
 
   // Return all elements of an array that don't pass a truth test.
@@ -104,12 +104,12 @@ var _ = {};
       var results = [];
       
       for (var i = 0; i < array.length; i++) {
-	  if (_.indexOf(result, array[i]) === -1) {
-	      result.push(array[i]);
+	  if (_.indexOf(results, array[i]) === -1) {
+	      results.push(array[i]);
 	  }
       }
 
-      return result;
+      return results;
   };
 
 
