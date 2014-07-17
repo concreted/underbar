@@ -220,13 +220,9 @@ var _ = {};
     // TIP: There's a very clever way to re-use every() here.
       iterator = iterator || _.identity;
 
-      var result = false;
-
-      _.each(collection, function(value) {
-	  result = result || iterator(value);
-      });
-
-      return !!result;
+      return !!_.reduce(collection, function(anyTrue, item) {
+	  return anyTrue || iterator(item);
+      }, false);
   };
 
 
