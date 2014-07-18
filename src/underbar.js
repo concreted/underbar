@@ -180,7 +180,7 @@ var _ = {};
   //   }, 0); // should be 6
   _.reduce = function(collection, iterator, accumulator) {
       if (accumulator === undefined) {
-	  accumulator = collection.splice(0,1)[0];
+	  accumulator = collection[0];
       }
 
       _.each(collection, function(value, key, list) {
