@@ -328,7 +328,7 @@ var _ = {};
       var args = Array.prototype.slice.call(arguments, 2, arguments.length);
 
       setTimeout(function() {
-	  console.log(args);
+	  //console.log(args);
 	  return func.apply(this, args);
       }, wait);
   };
@@ -368,6 +368,58 @@ var _ = {};
   // of that string. For example, _.sortBy(people, 'name') should sort
   // an array of people by their name.
   _.sortBy = function(collection, iterator) {
+      if (typeof iterator === "string") {
+	  var id = iterator;
+	  iterator = function(n) {
+	      return n[id];
+	  }
+      }
+
+      var mergesort = function(collection) {
+	  if (collection.length === 1) {
+	      return collection;
+	  }
+
+	  var a = collection.slice(0, ~~collection.length/2);
+	  var b = collection.slice(~~collection.length/2, collection.length);
+
+	  return merge(mergesort(a), mergesort(b));
+      }
+
+      var merge = function(a, b) {
+	  var result = [];
+	  
+	  while (a.length > 0 && b.length > 0) {
+	      var current_a = iterator(a[0]);
+	      var current_b = iterator(b[0]);
+
+	      if (current_a <= current_b) {
+		  result = result.concat(a.splice(0,1));
+	      }
+	      else {
+		  result = result.concat(b.splice(0,1));
+	      }
+	  }
+
+	  if (a.length > 0) {
+	      result = result.concat(a);
+	  }
+	  else if (b.length > 0) {
+	      result = result.concat(b);
+	  }
+
+	  return result;
+      }
+
+      var sortable = collection.filter(function(n) {
+	  return iterator(n) !== undefined;
+      });
+      var undef = collection.filter(function(n) {
+	  return iterator(n) === undefined;
+      });
+
+      return mergesort(sortable).concat(undef);
+      return merge(split(collection)[0], split(collection)[1]);
   };
 
   // Zip together two or more arrays with elements of the same index
