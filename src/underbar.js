@@ -419,7 +419,6 @@ var _ = {};
       });
 
       return mergesort(sortable).concat(undef);
-      return merge(split(collection)[0], split(collection)[1]);
   };
 
   // Zip together two or more arrays with elements of the same index
@@ -428,6 +427,22 @@ var _ = {};
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+      var args = Array.prototype.slice.call(arguments);
+
+      var result = [];
+
+      var maxlen = Math.max.apply(null, args.map(function(n) { return n.length }));
+
+      for (var i = 0; i < maxlen; i++) {
+	  result.push([]);
+
+	  for (var j = 0; j < arguments.length; j++) {
+	      result[i].push(arguments[j][i]);
+	  }
+      }
+
+      return result;
+
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
