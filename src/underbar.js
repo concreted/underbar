@@ -516,19 +516,19 @@ var _ = {};
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
     var time = 0;
+    var value = null;
     return function throttledFunction() {
-      if (time === 0) {
-        var result = func();
+      if (value === null) {
+        value = func();
         time = Date.now() + wait;
-        return result;
       }
       else {
-        var result = null;
         setTimeout(function() {
-          result = func();
+          value = func();
         }, time - Date.now());
         time += wait;
       }
+      return value;
     }
   };
 
