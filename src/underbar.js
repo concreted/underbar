@@ -515,13 +515,24 @@ var _ = {};
   //
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
+    // Keep track of the next time func can be called.
     var time = 0;
+
+    // Store func's return value. This is needed
+    // so future calls to throttledFunc can
+    // return the cached value, if it's
+    // not time for func to be called.
     var value = null;
-    return function throttledFunction() {
+
+    return function throttledFunc() {
+      // If func() hasn't been called yet, call it.
+      // Set the next time it can be called.
       if (value === null) {
         value = func();
         time = Date.now() + wait;
       }
+      // Otherwise, call func() again at 'time'.
+      // Push back 'time' by the wait interval.
       else {
         setTimeout(function() {
           value = func();
