@@ -80,13 +80,13 @@ var _ = {};
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, test) {
       var results = [];
-      
+
       _.each(collection, function(item, index) {
 	  if (test(item)) {
 	      results.push(item);
 	  }
       });
-	     
+
       return results;
   };
 
@@ -102,7 +102,7 @@ var _ = {};
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
       var results = [];
-      
+
       for (var i = 0; i < array.length; i++) {
 	  if (_.indexOf(results, array[i]) === -1) {
 	      results.push(array[i]);
@@ -119,7 +119,7 @@ var _ = {};
     // like each(), but in addition to running the operation on all
     // the members, it also maintains an array of results.
       var results = [];
-      
+
       _.each(collection, function(value, key) {
 	  results.push(iterator(value, key));
       });
@@ -208,7 +208,7 @@ var _ = {};
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
       iterator = iterator || _.identity;
-      
+
       return !!_.reduce(collection, function(allTrue, item) {
 	  return allTrue && iterator(item);
       }, true);
@@ -250,7 +250,7 @@ var _ = {};
 	      obj[key] = value;
 	  });
       });
-      
+
       return obj;
   };
 
@@ -264,7 +264,7 @@ var _ = {};
 	      }
 	  });
       });
-      
+
       return obj;
   };
 
@@ -347,7 +347,7 @@ var _ = {};
   _.shuffle = function(array) {
       var copy = array.slice();
       var result = [];
-      
+
       while (copy.length > 0) {
 	  var index = Math.random() * copy.length;
 	  result.push(copy.splice(index, 1)[0]);
@@ -388,7 +388,7 @@ var _ = {};
 
       var merge = function(a, b) {
 	  var result = [];
-	  
+
 	  while (a.length > 0 && b.length > 0) {
 	      var current_a = iterator(a[0]);
 	      var current_b = iterator(b[0]);
@@ -468,7 +468,7 @@ var _ = {};
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
       var result = [];
-      
+
       for (var i = 0; i < arguments[0].length; i++) {
 	  var val = arguments[0][i];
 	  var add = true;
@@ -477,7 +477,7 @@ var _ = {};
 		  add = false;
 	  }
 
-	  if (add) 
+	  if (add)
 	      result.push(val);
       }
 
@@ -488,7 +488,7 @@ var _ = {};
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
       var result = [];
-    
+
       for (var i = 0; i < arguments[0].length; i++) {
 	  var val = arguments[0][i];
 	  var add = true;
@@ -497,12 +497,12 @@ var _ = {};
 		  add = false;
 	  }
 
-	  if (add) 
+	  if (add)
 	      result.push(val);
       }
 
       return result;
-  };  
+  };
 
 
   /**
@@ -515,6 +515,33 @@ var _ = {};
   //
   // See the Underbar readme for details.
   _.throttle = function(func, wait) {
+    var time = 0;
+    return function throttledFunction() {
+      if (time === 0) {
+        var result = func();
+        time = Date.now() + wait;
+        return result;
+      }
+      else {
+        var result = null;
+        setTimeout(function() {
+          result = func();
+        }, time - Date.now());
+        time += wait;
+      }
+    }
   };
+
+  // This will return a function that can only be called once per wait period.
+  // But will not call itself again after the wait period.
+  // _.throttle = function(func, wait) {
+  //   var time = 0;
+  //   return function throttledFunction() {
+  //     if (time === 0 || Date.now() - time > wait) {
+  //       func();
+  //       time = Date.now();
+  //     }
+  //   }
+  // };
 
 }).call(this);
