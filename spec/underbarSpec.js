@@ -215,7 +215,7 @@ describe('reduce', function() {
 
     expect(total).to.equal(6);
   });
-  
+
   it('should default to the first item in the array', function() {
     var add = function(tally, item) {return tally + item; };
     var total = _.reduce([1, 2, 3], add);
@@ -658,8 +658,10 @@ describe("throttle", function() {
     };
     var throttledIncr = _.throttle(incr, 32);
     var result = throttledIncr();
+    var result2 = throttledIncr();
     setTimeout(function() {
       expect(result).to.eql(1);
+      expect(result2).to.eql(2);
       expect(counter).to.eql(1);
       done();
     }, 64);
