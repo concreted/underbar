@@ -659,10 +659,15 @@ describe("throttle", function() {
     var throttledIncr = _.throttle(incr, 32);
     var result = throttledIncr();
     var result2 = throttledIncr();
+    var result3 = null;
+    setTimeout(function() {
+      result3 = throttledIncr();
+    }, 32)
     setTimeout(function() {
       expect(result).to.eql(1);
-      expect(result2).to.eql(2);
-      expect(counter).to.eql(1);
+      expect(result2).to.eql(1);
+      expect(result3).to.eql(2);
+      expect(counter).to.eql(2);
       done();
     }, 64);
   });
